@@ -1,5 +1,4 @@
 
-
 for(id in 1:100) {
 
  jobid <- pcatsAPIclientR::dynamicGP(datafile=paste0("data/400/sim",id,".csv"),
@@ -22,17 +21,18 @@ for(id in 1:100) {
    x.categorical='Z',
    method="GP",
    seed=1,
-   use.cache=T)
+   use.cache=T,
+   reuse.cached.jobid=T)
 
-print(jobid)
+   print(jobid)
 
-status <- pcatsAPIclientR::wait_for_result(jobid)
+   status <- pcatsAPIclientR::wait_for_result(jobid)
 
-print(status)
+   if (status$status != "Done") {
+      stop(paste("Error for id", id, "status:", status$status))
+   }
 
-if (status$status == "Done") {
    result<-pcatsAPIclientR::results(jobid)
-   print(result)
 
    data <- rbind(result$dynamicGP$stage1$ate, result$dynamicGP$stage2$ate)
    data <- cbind(data, var=c("Y1Y0", "Y01Y00", "Y10Y00", "Y11Y00", "Y10Y01", "Y11Y01", "Y11Y10"))
@@ -43,7 +43,15 @@ if (status$status == "Done") {
       outdata[,paste0(data[i,]$var,".LB")]<-data[i,]$LB * -1
       outdata[,paste0(data[i,]$var,".UB")]<-data[i,]$UB * -1
    }
-   print(outdata)
-}
+   if (file.exists("results.RData")) load("results.RData")
+   else results <- NULL
 
+   if (sum(results$ID==id)) {
+      results[which(results$ID==id),] <- outdata
+   } else {
+      results <- rbind(results, outdata)
+   }
+
+   save(results,file="results.RData")
+   write.csv(results, file="results.csv", row.names=FALSE)
 }
