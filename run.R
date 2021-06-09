@@ -37,14 +37,14 @@ for(id in 1:100) {
 
    result<-pcatsAPIclientR::results(jobid)
 
-   data <- rbind(result$dynamicGP$stage1$ate, result$dynamicGP$stage2$ate)
-   data <- cbind(data, var=c("Y1Y0", "Y01Y00", "Y10Y00", "Y11Y00", "Y10Y01", "Y11Y01", "Y11Y10"))
-   outdata <-data.frame("ID"=id)
+   data <- rbind(result$dynamicGP$stage2$ate, result$dynamicGP$stage1$ate)
+   data <- cbind(data, var=c("Y01Y00", "Y10Y00", "Y11Y00", "Y10Y01", "Y11Y01", "Y11Y10", "Y1Y0"))
+   outdata <-data.frame("Seed"=id,"Method"="GP (1.0)")
    for(i in 1:7) {
-      outdata[,paste0(data[i,]$var,".Estimation")]<-data[i,]$Estimation * -1
-      outdata[,paste0(data[i,]$var,".SD")]<-data[i,]$SD
-      outdata[,paste0(data[i,]$var,".LB")]<-data[i,]$LB * -1
-      outdata[,paste0(data[i,]$var,".UB")]<-data[i,]$UB * -1
+      outdata[,paste0(data[i,]$var,"")]<-data[i,]$Estimation * -1
+      outdata[,paste0("SD.",data[i,]$var)]<-data[i,]$SD
+      outdata[,paste0("Lb.",data[i,]$var)]<-data[i,]$UB * -1
+      outdata[,paste0("Ub.",data[i,]$var)]<-data[i,]$LB * -1
    }
    if (file.exists(outputfile)) load(outputfile)
    else results <- NULL
