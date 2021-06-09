@@ -1,4 +1,7 @@
 
+outputfile="results_400.RData"
+outputfilecsv="results_400.csv"
+
 for(id in 1:100) {
 
  jobid <- pcatsAPIclientR::dynamicGP(datafile=paste0("data/400/sim",id,".csv"),
@@ -43,7 +46,7 @@ for(id in 1:100) {
       outdata[,paste0(data[i,]$var,".LB")]<-data[i,]$LB * -1
       outdata[,paste0(data[i,]$var,".UB")]<-data[i,]$UB * -1
    }
-   if (file.exists("results.RData")) load("results.RData")
+   if (file.exists(outputfile)) load(outputfile)
    else results <- NULL
 
    if (sum(results$ID==id)) {
@@ -52,6 +55,6 @@ for(id in 1:100) {
       results <- rbind(results, outdata)
    }
 
-   save(results,file="results.RData")
-   write.csv(results, file="results.csv", row.names=FALSE)
+   save(results,file=outputfile)
+   write.csv(results, file=outputfilecsv, row.names=FALSE)
 }
