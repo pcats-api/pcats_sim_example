@@ -1,6 +1,6 @@
 
-outputfile="results_600.RData"
-outputfilecsv="results_600.csv"
+outputfile="results_600b.RData"
+outputfilecsv="results_600b.csv"
 
 for(id in 1:10) {
 
@@ -22,7 +22,7 @@ for(id in 1:10) {
    burn.num=2000,
    mcmc.num=2000,
    x.categorical='Z',
-   method="GP",
+   method="BART",
    seed=1,
    use.cache=T,
    reuse.cached.jobid=T)

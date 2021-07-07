@@ -1,10 +1,10 @@
 
-outputfile="results_600.RData"
-outputfilecsv="results_600.csv"
+outputfile="results_400b.RData"
+outputfilecsv="results_400b.csv"
 
 for(id in 1:10) {
 
- jobid <- pcatsAPIclientR::dynamicGP(datafile=paste0("data/600/sim",id,".csv"),
+ jobid <- pcatsAPIclientR::dynamicGP(datafile=paste0("data/400/sim",id,".csv"),
    stg1.outcome="Y1",
    stg1.treatment="A1",
    stg1.x.explanatory="X,Z",
@@ -22,7 +22,7 @@ for(id in 1:10) {
    burn.num=2000,
    mcmc.num=2000,
    x.categorical='Z',
-   method="GP",
+   method="BART",
    seed=1,
    use.cache=T,
    reuse.cached.jobid=T)
