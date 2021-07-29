@@ -1,6 +1,7 @@
 import csv
 import json
 import os.path
+import io
 from os import path
 import pcats_api_client as pcats_api
 
@@ -71,7 +72,7 @@ for id in range(1,10):
    else:
       infile.append(outdata)
 
-   with open(outputfilecsv, 'w') as csvfile:
+   with io.open(outputfilecsv, 'w', newline='') as csvfile:
      writer = csv.DictWriter(csvfile, fieldnames=list(outdata.keys()))
      writer.writeheader()
      for row in infile:
