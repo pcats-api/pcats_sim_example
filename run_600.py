@@ -1,8 +1,8 @@
 import csv
 import json
 import os.path
-import io
 from os import path
+from collections import OrderedDict
 import pcats_api_client as pcats_api
 
 outputfilecsv="pyresults_600.csv"
@@ -45,7 +45,7 @@ for id in range(1,10):
 
    data = result['dynamicGP']['stage2']['ate']+result['dynamicGP']['stage1']['ate']
 
-   outdata = dict()
+   outdata = OrderedDict()
    outdata['Seed'] = id
    outdata['Method'] = "GP (1.0)"
    var=["Y01Y00", "Y10Y00", "Y11Y00", "Y10Y01", "Y11Y01", "Y11Y10", "Y1Y0"]
@@ -72,8 +72,9 @@ for id in range(1,10):
    else:
       infile.append(outdata)
 
-   with io.open(outputfilecsv, 'w', newline='') as csvfile:
-     writer = csv.DictWriter(csvfile, fieldnames=list(outdata.keys()))
+   with open(outputfilecsv, 'w') as csvfile:
+     writer = csv.DictWriter(csvfile, fieldnames=list(outdata.keys()),lineterminator="\n")
      writer.writeheader()
      for row in infile:
         writer.writerow(row)
+
