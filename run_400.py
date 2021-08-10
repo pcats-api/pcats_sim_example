@@ -27,9 +27,7 @@ for id in range(1,10):
       mcmc_num=2000,
       x_categorical='Z',
       method="GP",
-      seed=1,
-      use_cache=1,
-      reuse_cached_jobid=1)
+      seed=1)
 
    print("JobID: {}".format(jobid))
 

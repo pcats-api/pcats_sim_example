@@ -23,9 +23,7 @@ for(id in 1:10) {
    mcmc.num=2000,
    x.categorical='Z',
    method="GP",
-   seed=1,
-   use.cache=T,
-   reuse.cached.jobid=T)
+   seed=1)
 
    print(jobid)
 

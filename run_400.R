@@ -2,7 +2,7 @@
 outputfile="results_400.RData"
 outputfilecsv="results_400.csv"
 
-for(id in 1:1) {
+for(id in 1:10) {
 
  jobid <- pcatsAPIclientR::dynamicGP(datafile=paste0("data/400/sim",id,".csv"),
    stg1.outcome="Y1",
@@ -23,9 +23,7 @@ for(id in 1:1) {
    mcmc.num=2000,
    x.categorical='Z',
    method="GP",
-   seed=1,
-   use.cache=T,
-   reuse.cached.jobid=T)
+   seed=1)
 
    print(jobid)
 
